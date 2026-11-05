@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CasinoApp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CasinoApp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
