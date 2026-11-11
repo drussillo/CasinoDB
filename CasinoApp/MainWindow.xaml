@@ -38,6 +38,7 @@
             SelectionChanged="NavView_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Employees" Icon="Admin" Tag="emp"/>
+                <!--Add new pages al NavigationViewItem here, must define Tag attribute-->
             </NavigationView.MenuItems>
             <Frame x:Name="NavFrame" />
         </NavigationView>

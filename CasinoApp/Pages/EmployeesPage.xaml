@@ -7,6 +7,7 @@
     xmlns:local="using:CasinoApp.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <!--Copy paste this ^^^^ for new pages but change x:Class package to corresponding .cs file-->
 
     <Grid Padding="24,16,24,16" RowSpacing="24">
         <Grid.RowDefinitions>
