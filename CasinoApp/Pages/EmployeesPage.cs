@@ -14,23 +14,25 @@ namespace CasinoApp.Pages
         {
             InitializeComponent();
 
-            SqlConnection Connection;
 
-            Connection = new SqlConnection(
-                $@"Server=(localdb)\MSSQLLocalDB;
-                AttachDbFilename=C:\ProgramData\test\Casino.mdf;"
-                );  
-            // TODO^^^: the path needs to be updated. Has to be outside of project scope.
-            // Option 1: Separate repo that clones to some absolute path
-            // Option 2: Script that puts db in some absolute path
-
+            var Connection = DB.GetConnection();
             Connection.Open();
             var Query = Connection.CreateCommand();
-            Query.CommandText = "SELECT * FROM Gambler";
-            var reader = Query.ExecuteReader();
+            Query.CommandText = "SELECT * FROM Employee";
+            using (SqlDataReader reader = Query.ExecuteReader())
+            {
+                while(reader.Read())
+                {
+                    for(int i = 0; i < reader.FieldCount; i++)
+                    {
+                        EmpList.Text += reader[i] + " ";
+                    }
+                    EmpList.Text += "\n";
+                }
+            }
+
             Connection.Close();
 
-            EmpList.Text = "hello";
         }
     }
 }
