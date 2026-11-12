@@ -55,6 +55,11 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="*" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="*" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\GamesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution

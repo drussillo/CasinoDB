@@ -9,14 +9,82 @@
     mc:Ignorable="d">
     <!--Copy paste this ^^^^ for new pages but change x:Class package to corresponding .cs file-->
 
-    <Grid Padding="24,16,24,16" RowSpacing="24">
+    <Grid>
         <Grid.RowDefinitions>
+
             <RowDefinition Height="Auto" />
+            <!-- 0 header: sizes to its content -->
+
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <!-- 1 labels -->
+ 
+            <RowDefinition Height="*" />
+            <!-- 2 the list takes the rest of the grid view -->
+
         </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Employees" />
-        <TextBlock Grid.Row="1" Text="This is where the employees go" />
-        <TextBlock x:Name="EmpList" Grid.Row="2" Text="" />
+
+        <!-- Header row -->
+        <Border Grid.Row="0" Padding="32,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Exmployees" Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock Grid.Row="1" Text="All current employees working at the casino!"/>
+            </Grid>
+
+        </Border>
+
+        <!-- labels -->
+        <Grid Grid.Row="1" Padding="12 8" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="SSN" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Text="First Name" FontWeight="Bold" />
+            <TextBlock Grid.Column="2" Text="Last Name" FontWeight="Bold" />
+            <TextBlock Grid.Column="3" Text="Salary" FontWeight="Bold" />
+            <TextBlock Grid.Column="4" Text="Adress" FontWeight="Bold" />
+        </Grid>
+
+        <!-- Body row -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            
+            <StackPanel Padding="16">
+                <ListView ItemsSource="{x:Bind Employees}">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:EmployeeView">
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{x:Bind SSN}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind FirstName}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind LastName}" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind Salary}" />
+                                <TextBlock Grid.Column="4" Text="{x:Bind Address}" TextWrapping="Wrap" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
+            </StackPanel>
+            
+        </ScrollViewer>
+
     </Grid>
 </Page>
