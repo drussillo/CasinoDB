@@ -17,6 +17,6 @@
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Employees" />
         <TextBlock Grid.Row="1" Text="This is where the employees go" />
-        <TextBlock x:Name="EmpList" Grid.Row="2" Text="My name is dave" />
+        <TextBlock x:Name="EmpList" Grid.Row="2" Text="" />
     </Grid>
 </Page>

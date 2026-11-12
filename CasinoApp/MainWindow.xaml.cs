@@ -1,4 +1,5 @@
 using CasinoApp.Pages;
+using Microsoft.Data.SqlClient;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -48,6 +49,19 @@ namespace CasinoApp
                         throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
                 }
             }
+        }
+    }
+
+    public static class DB
+    {
+        public const string ConnectionString = $@"
+            Server=(localdb)\MSSQLLocalDB;
+            AttachDbFilename=C:\ProgramData\CasinoDB\Casino.mdf;
+        ";  // run install script for this path to work
+
+        public static SqlConnection GetConnection()
+        {
+            return new SqlConnection(ConnectionString);
         }
     }
 }
