@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -73,6 +74,53 @@ namespace CasinoApp.Pages
             // TODO:
             // 1. DELETE FROM Games WHERE Id = $id  (database)
             // 2. Games.Remove(game);                (screen)
+
+            if (ListViewGames.SelectedItem is not CasinoGameView game) return;
+
+            var textLabel = new TextBlock
+            {
+                Text = "Are you sure you want to delete " + game.Name,
+                FontSize = 18,
+                TextWrapping = TextWrapping.Wrap
+            };
+
+            var panel = new StackPanel { Spacing = 12 };
+            panel.Children.Add(textLabel);
+
+            var dialog = new ContentDialog
+            {
+                Title = "Delete " + game.Name,
+                Content = panel,
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                // DO delete operation
+                using (SqlConnection conn = DB.GetConnection())
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(
+                        @"DELETE FROM Game
+                          WHERE Name = @name AND Type = @type"
+                        , conn);
+
+                    cmd.Parameters.AddWithValue("@name", game.Name);
+                    cmd.Parameters.AddWithValue("@type", game.Type);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Update the screen
+                int index = Games.IndexOf(game);
+                Games.RemoveAt(index);
+            }
         }
 
         private async void Edit_Click(object sender, RoutedEventArgs e)
@@ -163,6 +211,28 @@ namespace CasinoApp.Pages
             if (result == ContentDialogResult.Primary)
             {
                 // Save pressed: read nameBox.Text, typeBox.Text, descBox.Text
+                using (SqlConnection conn = DB.GetConnection())
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(
+                        "INSERT INTO Game (Name, Type, Description) VALUES (@name, @type, @desc)",
+                        conn);
+
+                    cmd.Parameters.AddWithValue("@name", nameBox.Text);
+                    cmd.Parameters.AddWithValue("@type", typeBox.Text);
+                    cmd.Parameters.AddWithValue("@desc", descBox.Text);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Update the screen
+                Games.Add(new CasinoGameView
+                {
+                    Name = nameBox.Text,
+                    Type = typeBox.Text,
+                    Description = descBox.Text
+                });
             }
         }
 

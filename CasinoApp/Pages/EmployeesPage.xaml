@@ -55,40 +55,36 @@
         </Grid>
 
         <!-- Body row -->
-        <StackPanel Grid.Row="2" Padding="16">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            
+            <StackPanel Padding="16">
+                <ListView ItemsSource="{x:Bind Employees}">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:EmployeeView">
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
 
-            <ListView ItemsSource="{x:Bind Employees}">
+                                <TextBlock Grid.Column="0" Text="{x:Bind SSN}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind FirstName}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind LastName}" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind Salary}" />
+                                <TextBlock Grid.Column="4" Text="{x:Bind Address}" TextWrapping="Wrap" />
 
-                <ListView.ItemTemplate>
-
-                    <DataTemplate x:DataType="local:EmployeeView">
-
-                        <Grid Padding="12" ColumnSpacing="16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" Text="{x:Bind SSN}" FontWeight="SemiBold" />
-                            <TextBlock Grid.Column="1" Text="{x:Bind FirstName}" />
-                            <TextBlock Grid.Column="2" Text="{x:Bind LastName}" />
-                            <TextBlock Grid.Column="3" Text="{x:Bind Salary}" />
-                            <TextBlock Grid.Column="4" Text="{x:Bind Address}" TextWrapping="Wrap" />
-
-                        </Grid>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-
-            </ListView>
-
-
-
-
-        </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
+            </StackPanel>
+            
+        </ScrollViewer>
 
     </Grid>
 </Page>

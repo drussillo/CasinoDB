@@ -45,33 +45,35 @@
         </Grid>
 
         <!-- Body row -->
-        <StackPanel Grid.Row="2" Padding="16">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Padding="16">
 
-            <ListView ItemsSource="{x:Bind Games}" x:Name="ListViewGames" SelectionChanged="ListViewGames_SelectionChanged">
+                <ListView ItemsSource="{x:Bind Games}" x:Name="ListViewGames" SelectionChanged="ListViewGames_SelectionChanged">
 
-                <ListView.ItemTemplate>
+                    <ListView.ItemTemplate>
 
-                    <DataTemplate x:DataType="local:CasinoGameView">
+                        <DataTemplate x:DataType="local:CasinoGameView">
 
-                        <Grid Padding="12" ColumnSpacing="16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="{x:Bind Name}" FontWeight="SemiBold" />
-                            <TextBlock Grid.Column="1" Text="{x:Bind Type}" />
-                            <TextBlock Grid.Column="2" Text="{x:Bind Description}" TextWrapping="Wrap" />
+                                <TextBlock Grid.Column="0" Text="{x:Bind Name}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind Type}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind Description}" TextWrapping="Wrap" />
 
-                        </Grid>
+                            </Grid>
 
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-            </ListView>
+                </ListView>
 
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
             <Button FontWeight="SemiBold" Content="Add" x:Name="AddButtom" Click="Add_Click" />
