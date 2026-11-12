@@ -44,6 +44,9 @@ namespace CasinoApp
                     case "emp":
                         NavFrame.Navigate(typeof(EmployeesPage));
                         break;
+                    case "games":
+                        NavFrame.Navigate(typeof(GamesPage));
+                        break;
                     // Add new page cases here using tag from MainWindow.xaml
                     default:
                         throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
