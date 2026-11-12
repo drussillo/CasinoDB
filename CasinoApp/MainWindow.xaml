@@ -36,13 +36,13 @@
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
             SelectionChanged="NavView_SelectionChanged">
-            
-            
+
+
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Employees" Icon="Contact2" Tag="emp"/>
 
                 <NavigationViewItem Content="Games" Icon="Emoji" Tag="games"/>
-                
+
                 <!-- 
                 Games Tab YOU CAN DO NESTED TABS LIKE THIS 
                 
@@ -58,10 +58,12 @@
 
 
 
+                <NavigationViewItem Content="Home" Icon="Admin" Tag="home"/>
+                <NavigationViewItem Content="Equipment" Icon="Admin" Tag="machine"/>
                 <!--Add new pages al NavigationViewItem here, must define Tag attribute-->
             </NavigationView.MenuItems>
-            
-            
+
+
             <Frame x:Name="NavFrame" />
         </NavigationView>
     </Grid>
