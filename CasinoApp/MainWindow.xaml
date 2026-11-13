@@ -36,6 +36,8 @@
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
             SelectionChanged="NavView_SelectionChanged">
+
+
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Employees" Icon="Admin" Tag="emp"/>
                 <NavigationViewItem Content="Gamblers" Icon="People" Tag="gamblers"/>
@@ -46,8 +48,31 @@
 
                 <NavigationViewItem Content="Sessions" Icon="Clock" Tag="sessions"/>
                 <NavigationViewItem Content="Pits" Icon="Library" Tag="pits"/>
+                <NavigationViewItem Content="Employees" Icon="Contact2" Tag="emp"/>
+
+                <NavigationViewItem Content="Games" Icon="Emoji" Tag="games"/>
+
+                <!-- 
+                Games Tab YOU CAN DO NESTED TABS LIKE THIS 
+                
+                <NavigationViewItem Content="Games" Icon="AllApps" SelectsOnInvoked="False">
+                    
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem Content="View Games" Tag="viewgames"/>   Different tabs
+                        <NavigationViewItem Content="Edit Games" Tag="editgames"/>      
+                    </NavigationViewItem.MenuItems>
+
+                </NavigationViewItem>
+                -->
+
+
+
+                <NavigationViewItem Content="Home" Icon="Admin" Tag="home"/>
+                <NavigationViewItem Content="Equipment" Icon="Admin" Tag="machine"/>
                 <!--Add new pages al NavigationViewItem here, must define Tag attribute-->
             </NavigationView.MenuItems>
+
+
             <Frame x:Name="NavFrame" />
         </NavigationView>
         

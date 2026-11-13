@@ -14,6 +14,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Home" />
-        <TextBlock Grid.Row="1" Text="This is the Home page" />
+        <TextBlock Grid.Row="1" Text="Welcome to the CasinoDB" />
     </Grid>
 </Page>
