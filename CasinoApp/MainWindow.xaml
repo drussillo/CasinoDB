@@ -39,9 +39,20 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Employees" Icon="Admin" Tag="emp"/>
                 <NavigationViewItem Content="Gamblers" Icon="People" Tag="gamblers"/>
+                <NavigationViewItem Content="Memberships" Icon="SolidStar" Tag="memberships"/>
+
+                <NavigationViewItem Content="Bets" Icon="Directions" Tag="bets"/>
+                <NavigationViewItem Content="Exchanges" Icon="Calculator" Tag="exchanges"/>
+
+                <NavigationViewItem Content="Sessions" Icon="Clock" Tag="sessions"/>
+                <NavigationViewItem Content="Pits" Icon="Library" Tag="pits"/>
                 <!--Add new pages al NavigationViewItem here, must define Tag attribute-->
             </NavigationView.MenuItems>
             <Frame x:Name="NavFrame" />
         </NavigationView>
+        
+        
+        
+        
     </Grid>
 </Window>

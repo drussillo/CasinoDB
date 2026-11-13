@@ -47,6 +47,21 @@ namespace CasinoApp
                     case "gamblers":
                         NavFrame.Navigate(typeof(GamblersPage));
                         break;
+                    case "memberships":
+                        NavFrame.Navigate(typeof(MembershipPage));
+                        break;
+                    case "bets":
+                        NavFrame.Navigate(typeof(BetsPage));
+                        break;
+                    case "exchanges":
+                        NavFrame.Navigate(typeof(ExchangesPage));
+                        break;
+                    case "sessions":
+                        NavFrame.Navigate (typeof(SessionsPage));
+                        break;
+                    case "pits":
+                        NavFrame.Navigate(typeof(PitsPage));
+                        break;
                     // Add new page cases here using tag from MainWindow.xaml
                     default:
                         throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
