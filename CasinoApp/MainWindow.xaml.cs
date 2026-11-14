@@ -47,6 +47,23 @@ namespace CasinoApp
                     case "emp":
                         NavFrame.Navigate(typeof(EmployeesPage));
                         break;
+                    case "gamblers":
+                        NavFrame.Navigate(typeof(GamblersPage));
+                        break;
+                    case "memberships":
+                        NavFrame.Navigate(typeof(MembershipPage));
+                        break;
+                    case "bets":
+                        NavFrame.Navigate(typeof(BetsPage));
+                        break;
+                    case "exchanges":
+                        NavFrame.Navigate(typeof(ExchangesPage));
+                        break;
+                    case "sessions":
+                        NavFrame.Navigate (typeof(SessionsPage));
+                        break;
+                    case "pits":
+                        NavFrame.Navigate(typeof(PitsPage));
                     case "games":
                         NavFrame.Navigate(typeof(GamesPage));
                         break;
