@@ -64,6 +64,7 @@ namespace CasinoApp
                         break;
                     case "pits":
                         NavFrame.Navigate(typeof(PitsPage));
+                        break;
                     case "games":
                         NavFrame.Navigate(typeof(GamesPage));
                         break;
