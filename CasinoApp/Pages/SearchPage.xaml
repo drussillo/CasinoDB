@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <Page 
+        x:Class="CasinoApp.Pages.SearchPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="using:CasinoApp.Pages"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d">
+
+        <Grid>
+        <TextBlock Text="Search Page" FontSize="23" Margin="32,32,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Text="TextBox" Margin="352,96,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="32" />
+        <Button Content="Search" Margin="200,144,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Height="32" />
+        <!-- binding needs to be change, link to all tables -->
+        <ComboBox Margin="32,96,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="32" ItemsSource="{x:Bind Tables}" x:Name="TableBox">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5,0" Text="{Binding TableName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <!-- binding needs to be change, link to all columns within table secleted by above -->
+        <ComboBox Margin="192,96,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="32" ItemsSource="{x:Bind Columns}" x:Name="ColumnBox" DropDownOpened="OnDropDownOpened">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="5,0" Text="{Binding FirstName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+       <!--  binding needs to be change, link to result of search 
+        <DataGrid ItemsSource="{Binding SampleData.Employees}" Margin="112,192,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="480" Height="176" /> -->
+        </Grid>
+</Page>
