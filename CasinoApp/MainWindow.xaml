@@ -39,7 +39,7 @@
 
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Employees" Icon="Admin" Tag="emp"/>
+                <NavigationViewItem Content="Employees" Icon="Contact2" Tag="emp"/>
                 <NavigationViewItem Content="Gamblers" Icon="People" Tag="gamblers"/>
                 <NavigationViewItem Content="Memberships" Icon="SolidStar" Tag="memberships"/>
 
@@ -48,7 +48,7 @@
 
                 <NavigationViewItem Content="Sessions" Icon="Clock" Tag="sessions"/>
                 <NavigationViewItem Content="Pits" Icon="Library" Tag="pits"/>
-                <NavigationViewItem Content="Employees" Icon="Contact2" Tag="emp"/>
+                
 
                 <NavigationViewItem Content="Games" Icon="Emoji" Tag="games"/>
 

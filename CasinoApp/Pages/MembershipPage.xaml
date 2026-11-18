@@ -48,6 +48,41 @@
             <TextBlock Grid.Column="3" Text="Description" FontWeight="Bold" />
         </Grid>
 
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel Padding="16">
+                <ListView ItemsSource="{x:Bind Memberships}" x:Name="ListViewMemberships" SelectionChanged="ListViewMemberships_SelectionChanged">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:MembershipView">
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{x:Bind Name}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind Tier}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind Cost}" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind Description}" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
+            <Button FontWeight="SemiBold" Content="Add" x:Name="AddButtom" Click="Add_Click" />
+            <Button FontWeight="SemiBold" Content="Edit" IsEnabled="False" x:Name="EditButton" Click="Edit_Click" />
+            <Button FontWeight="SemiBold" Content="Delete" IsEnabled="False" x:Name="DeleteButton" Click="Delete_Click" />
+        </StackPanel>
+
 
     </Grid>
 </Page>
