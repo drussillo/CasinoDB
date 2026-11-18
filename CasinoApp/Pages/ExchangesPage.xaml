@@ -42,28 +42,54 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Text="Exchange ID" FontWeight="Bold" />
             <TextBlock Grid.Column="1" Text="Gambler ID" FontWeight="Bold" />
-            <TextBlock Grid.Column="2" Text="Amount" FontWeight="Bold" />
-            <TextBlock Grid.Column="3" Text="Chips Exchange" FontWeight="Bold" />
-            <TextBlock Grid.Column="4" Text="Date" FontWeight="Bold" />
+            <TextBlock Grid.Column="2" Text="Gambler Name" FontWeight="Bold" />
+            <TextBlock Grid.Column="3" Text="Amount" FontWeight="Bold" />
+            <TextBlock Grid.Column="4" Text="Chips Exchange" FontWeight="Bold" />
+            <TextBlock Grid.Column="5" Text="Date" FontWeight="Bold" />
         </Grid>
         
         <!-- List view goes here -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            
             <StackPanel Padding="16">
+                <ListView ItemsSource="{x:Bind Exchanges, Mode=OneWay}">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:ExchangesView">
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
+                                <TextBlock Grid.Column="0" Text="{x:Bind ExchangeID.ToString()}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind GamblerID}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind GamblerName}" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind Amount.ToString()}" />
+                                <TextBlock Grid.Column="4" Text="{x:Bind ToChips.ToString()}" />
+                                <TextBlock Grid.Column="6" Text="{x:Bind Time}" TextWrapping="Wrap" />
 
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
             </StackPanel>
+            
         </ScrollViewer>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
-            <Button FontWeight="SemiBold" Content="Add" x:Name="AddButtom" />
-            <Button FontWeight="SemiBold" Content="Edit" IsEnabled="False" x:Name="EditButton"  />
-            <Button FontWeight="SemiBold" Content="Delete" IsEnabled="False" x:Name="DeleteButton"  />
+            <Button FontWeight="SemiBold" Content="Start Demo" x:Name="Demo" Click="Demo_Click" />
         </StackPanel>
     </Grid>
 </Page>
