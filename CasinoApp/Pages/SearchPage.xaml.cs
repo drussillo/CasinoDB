@@ -56,6 +56,7 @@ namespace CasinoApp.Pages
                   FROM INFORMATION_SCHEMA.COLUMNS
                   WHERE TABLE_NAME = @Table"
                 );
+            command.Parameters.AddWithValue("@Table", Table);
 
             using var reader = command.ExecuteReader();
 
