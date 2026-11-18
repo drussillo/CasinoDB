@@ -20,6 +20,9 @@ using Windows.Gaming.Preview.GamesEnumeration;
 using Windows.UI.StartScreen;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Data;
+
+
 
 namespace CasinoApp.Pages
 {
@@ -116,9 +119,55 @@ namespace CasinoApp.Pages
             ColumnBox.IsEnabled = columns.Count > 0;
 
         }
-        void OnClickUpdate(object sender, RoutedEventArgs e)
+
+        private async void OnClick1(object sender, RoutedEventArgs e)
         {
-    
+            if (TableBox.SelectedItem is not TableView selectedTable ||
+                ColumnBox.SelectedItem is not ColumnView selectedColumn)
+               {
+                return; 
+                }
+
+            string tableName = selectedTable.TableName;
+            string columnName = selectedColumn.ColumnName;
+            string searchText = SearchBox.Text;
+
+            var results = new ObservableCollection<SearchResultItem>();
+
+            using (var connection = DB.GetConnection())
+            {
+                await connection.OpenAsync();
+
+                string query = $"SELECT * FROM [{tableName}] WHERE CAST([{columnName}] AS NVARCHAR(MAX)) LIKE @search";
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@search", $"%{searchText}%");
+
+                using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    string matchedValue = reader[columnName]?.ToString() ?? "NULL";
+                    var details = new List<string>();
+
+                    // Loop through every column in the row to build the details line
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        string col = reader.GetName(i);
+                        string val = reader.IsDBNull(i) ? "NULL" : reader.GetValue(i).ToString();
+                        details.Add($"{col}: {val}");
+                    }
+
+                    results.Add(new SearchResultItem
+                    {
+                        PrimaryText = $"{columnName}: {matchedValue}",
+                        SecondaryText = string.Join("   |   ", details)
+                    });
+                }
+                connection.Close();
+            }
+
+            ResultsListView.ItemsSource = results;
+
+
         }
 
 
@@ -133,9 +182,10 @@ namespace CasinoApp.Pages
     {
         public string ColumnName { get; set; } = "";
     }
-    public class SearchView
+    public class SearchResultItem
     {
-
+        public string PrimaryText { get; set; } = "";
+        public string SecondaryText { get; set; } = "";
     }
 
 }
