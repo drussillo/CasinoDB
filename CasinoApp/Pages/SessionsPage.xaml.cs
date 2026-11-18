@@ -17,6 +17,8 @@ using Microsoft.Data.SqlTypes;
 using System.Data.SqlTypes;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Security.Cryptography.Pkcs;
+using Windows.Web.AtomPub;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,6 +31,7 @@ namespace CasinoApp.Pages;
 public sealed partial class SessionsPage : Page
 {
     public ObservableCollection<SessionsView> Sessions { get; } = new();
+
     public SessionsPage()
     {
         InitializeComponent();
@@ -61,7 +64,79 @@ public sealed partial class SessionsPage : Page
         Connection.Close();
     }
 
+    public bool DemoStarted = false;
+    private CancellationTokenSource? _demoCts;
+    private async void Demo_Click(object sender, RoutedEventArgs e)
+    {
+        if(DemoStarted)
+        {
+            DemoStarted = false;
+            Demo.Content = "Start Demo";
+            _demoCts?.Dispose();
+            _demoCts = null;
+            return;
+        }
+        DemoStarted = true;
+        Demo.Content = "Stop Demo";
 
+        _demoCts = new CancellationTokenSource();
+        try
+        {
+            await RunDemoAsync(_demoCts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Demo stopped.
+        }
+    }
+
+    private async Task RunDemoAsync(CancellationToken token)
+    {
+        while (true)
+        {
+            token.ThrowIfCancellationRequested();
+
+            // Add randomly generated session
+            var Connection = DB.GetConnection();
+            Connection.Open();
+
+            var EmpQuery = Connection.CreateCommand();
+            EmpQuery.CommandText = @"
+                SELECT TOP 1 ssn
+                FROM Employee
+                ORDER BY NEWID();
+            ";
+
+            var EquipmentQuery = Connection.CreateCommand();
+            EquipmentQuery.CommandText = @"
+                SELECT TOP 1 equipment_id
+                FROM Equipment
+                ORDER BY NEWID();
+            ";
+
+            using (SqlDataReader empreader = EmpQuery.ExecuteReader())
+            using (SqlDataReader equreader = EquipmentQuery.ExecuteReader())
+            {
+                if(empreader.Read() && equreader.Read())
+                {
+                    DateTime endTime = DateTime.Now;
+                    Random rng = new Random();
+                    DateTime startTime = endTime.AddHours(-rng.Next(1, 11));
+
+                    var SessionQuery = Connection.CreateCommand();
+                    SessionQuery.CommandText = $@"
+                        INSERT INTO Session (employee, equipment, start_time, end_time)
+                        values({empreader.GetString(1)}, {equreader.GetString(1)}, {startTime}, {endTime})
+                    ";
+                }
+
+            }
+
+
+            // Wait 30 seconds
+            await Task.Delay(TimeSpan.FromSeconds(30), token);
+        }
+    }
 }
 
 public class SessionsView
