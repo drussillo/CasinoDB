@@ -36,6 +36,13 @@ public sealed partial class SessionsPage : Page
     {
         InitializeComponent();
 
+        UpdateCollection();
+    }
+
+    public void UpdateCollection()
+    {
+        Sessions.Clear();
+
         var Connection = DB.GetConnection();
         Connection.Open();
         var Query = Connection.CreateCommand();
@@ -43,6 +50,7 @@ public sealed partial class SessionsPage : Page
             SELECT Session.*, Employee.f_name, Employee.l_name, Equipment.game
             FROM Session JOIN Employee ON Employee.ssn = Session.employee
                          JOIN Equipment ON Equipment.equipment_id = Session.equipment
+            ORDER BY session_id DESC
         ";
         using (SqlDataReader reader = Query.ExecuteReader())
         {
@@ -50,7 +58,7 @@ public sealed partial class SessionsPage : Page
             {
                 Sessions.Add(new SessionsView
                 {
-                    SessionID = reader.GetString(0),
+                    SessionID = reader.GetInt32(0),
                     EmployeeID = reader.GetString(1),
                     EmployeeName = $"{reader.GetString(5)} {reader.GetString(6)}",
                     EquipmentID = reader.GetString(2),
@@ -71,7 +79,9 @@ public sealed partial class SessionsPage : Page
         if(DemoStarted)
         {
             DemoStarted = false;
+
             Demo.Content = "Start Demo";
+            _demoCts?.Cancel();
             _demoCts?.Dispose();
             _demoCts = null;
             return;
@@ -114,28 +124,37 @@ public sealed partial class SessionsPage : Page
                 ORDER BY NEWID();
             ";
 
-            using (SqlDataReader empreader = EmpQuery.ExecuteReader())
-            using (SqlDataReader equreader = EquipmentQuery.ExecuteReader())
-            {
-                if(empreader.Read() && equreader.Read())
-                {
-                    DateTime endTime = DateTime.Now;
-                    Random rng = new Random();
-                    DateTime startTime = endTime.AddHours(-rng.Next(1, 11));
+            var empid = (string)EmpQuery.ExecuteScalar();
+            var equid = (string)EquipmentQuery.ExecuteScalar();
 
-                    var SessionQuery = Connection.CreateCommand();
-                    SessionQuery.CommandText = $@"
+            DateTime endTime = DateTime.Now;
+            Random rng = new Random();
+            DateTime startTime = endTime.AddHours(-rng.Next(1, 11));
+
+            var SessionQuery = Connection.CreateCommand();
+            SessionQuery.CommandText = $@"
                         INSERT INTO Session (employee, equipment, start_time, end_time)
-                        values({empreader.GetString(1)}, {equreader.GetString(1)}, {startTime}, {endTime})
-                    ";
-                }
+                        values(@employee, @equipment, @startTime, @endTime)
+            ";
+            SessionQuery.Parameters.AddWithValue("@employee", empid);
+            SessionQuery.Parameters.AddWithValue("@equipment", equid);
+            SessionQuery.Parameters.AddWithValue("@startTime", startTime);
+            SessionQuery.Parameters.AddWithValue("@endTime", endTime);
 
-            }
+            SessionQuery.ExecuteNonQuery();
+            UpdateCollection();
 
-
-            // Wait 30 seconds
-            await Task.Delay(TimeSpan.FromSeconds(30), token);
+            // Wait until next insert
+            await Task.Delay(TimeSpan.FromSeconds(1), token);
         }
+    }
+
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        base.OnNavigatedFrom(e);
+        _demoCts?.Cancel();
+        _demoCts?.Dispose();
+        _demoCts = null;
     }
 }
 
@@ -144,7 +163,7 @@ public class SessionsView
     private SqlDateTime startTime;
     private SqlDateTime endTime;
 
-    public string SessionID { get; set; } = "";
+    public int SessionID { get; set; } = -1;
     public string EmployeeID { get; set; } = "";
     public string EmployeeName { get; set; } = "";
     public string EquipmentID { get; set; } = "";

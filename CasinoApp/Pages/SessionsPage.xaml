@@ -59,7 +59,7 @@
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             
             <StackPanel Padding="16">
-                <ListView ItemsSource="{x:Bind Sessions}">
+                <ListView ItemsSource="{x:Bind Sessions, Mode=OneWay}">
                     
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:SessionsView">
@@ -74,7 +74,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="{x:Bind SessionID}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="0" Text="{x:Bind SessionID.ToString()}" FontWeight="SemiBold" />
                                 <TextBlock Grid.Column="1" Text="{x:Bind EmployeeID}" />
                                 <TextBlock Grid.Column="2" Text="{x:Bind EmployeeName}" />
                                 <TextBlock Grid.Column="3" Text="{x:Bind EquipmentID}" />
