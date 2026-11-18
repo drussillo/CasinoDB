@@ -50,38 +50,7 @@ namespace CasinoApp.Pages
             }
         }
 
-        // Create the membership dropdown used by both Add and Edit.
-        private ComboBox CreateMembershipComboBox(string? currentMembership = null)
-        {
-            var comboBox = new ComboBox
-            {
-                Header = "Membership Type",
-                Description = "This is a foreign key."
-            };
-
-            using var connection = DB.GetConnection();
-            connection.Open();
-
-            using var command = new SqlCommand("SELECT NAME FROM MEMBERSHIP", connection);
-            using var reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                comboBox.Items.Add(reader.GetString(0));
-            }
-
-            // Keep the existing membership selected when editing.
-            if (currentMembership != null)
-            {
-                comboBox.SelectedItem = currentMembership;
-            }
-
-            return comboBox;
-        }
-
-        // Use the same dialog settings throughout the page.
-
-
+  
         private void ListViewGamblers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bool hasSelection = ListViewGamblers.SelectedItem is GamblersView;
@@ -134,7 +103,7 @@ namespace CasinoApp.Pages
             var firstNameBox = new TextBox { Header = "First Name", Text = gambler.FirstName };
             var lastNameBox = new TextBox { Header = "Last Name", Text = gambler.LastName };
             var idTypeBox = new TextBox { Header = "ID Type", Text = gambler.IDType };
-            var membershipCombo = CreateMembershipComboBox(gambler.Membership);
+            var membershipCombo = UIHelper.CreateMembershipComboBox(gambler.Membership);
             var datePicker = new DatePicker { Header = "Date Joined" };
             var statusBox = new TextBox { Header = "Account Status", Text = gambler.AccountStatus };
             var notesBox = new TextBox { Header = "Notes", Text = gambler.Notes };
@@ -221,7 +190,7 @@ namespace CasinoApp.Pages
             var firstNameBox = new TextBox { Header = "First Name" };
             var lastNameBox = new TextBox { Header = "Last Name" };
             var idTypeBox = new TextBox { Header = "ID Type" };
-            var membershipCombo = CreateMembershipComboBox();
+            var membershipCombo = UIHelper.CreateMembershipComboBox();
             var datePicker = new DatePicker { Header = "Date Joined" };
             var statusBox = new TextBox { Header = "Account Status" };
             var notesBox = new TextBox { Header = "Notes" };
