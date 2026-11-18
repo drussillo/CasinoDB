@@ -18,25 +18,35 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Gaming.Preview.GamesEnumeration;
 using Windows.UI.StartScreen;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace CasinoApp.Pages
 {
     public sealed partial class SearchPage : Page
     {
+     
         public ObservableCollection<TableView> Tables { get; } = new();
-        public ObservableCollection<ColumnView> Columns { get; } = new();
+        //public ObservableCollection<ColumnView> Columns { get; } = new();
+
+       
 
         public SearchPage()
         {
             InitializeComponent();
-            LoadTables();
+            Loaded += MyPage_Loaded;
         }
 
-        private void LoadTables ()
+        private async void MyPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadTables();
+        }
+
+        private async Task LoadTables()
         {
             Console.WriteLine("Loading Tables");
             var connection = DB.GetConnection();
-            connection.Open();
+            await connection.OpenAsync();
 
             using var command = new SqlCommand(
                 @"SELECT 
@@ -46,9 +56,9 @@ namespace CasinoApp.Pages
                   WHERE
                      TABLE_NAME != 'sysdiagrams'", connection);
 
-            using (var reader = command.ExecuteReader())
+            using (var reader = await command.ExecuteReaderAsync())
             {
-                while (reader.Read())
+                while (await reader.ReadAsync())
                 {
                     Tables.Add(new TableView
                     {
@@ -56,32 +66,45 @@ namespace CasinoApp.Pages
                     });
                 }
             }
-           
+
             connection.Close();
 
         }
 
-        private void LoadColumn()
+        private async void TableBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ColumnBox.ItemsSource = null;
+            ColumnBox.IsEnabled = false;
+
+            // Check if a valid category is selected
+            if (TableBox.SelectedItem is TableView selectedTable)
+            {
+                await LoadColumn(selectedTable.TableName);
+            }
+        }
+
+        private async Task LoadColumn(string Table)
+        {
+            var columns = new List<ColumnView>();
+
             Console.WriteLine("Loading Column");
-            
-            string Table = TableBox.SelectedItem.ToString();
-            Console.WriteLine("Selected Table is" + Table);
+
+            if (Table == null) return;
 
             using var connection = DB.GetConnection();
-            connection.Open();
+            await connection.OpenAsync();
             using var command = new SqlCommand(
                 @"SELECT COLUMN_NAME
                   FROM INFORMATION_SCHEMA.COLUMNS
-                  WHERE TABLE_NAME = @table",
+                  WHERE TABLE_NAME = @tablename",
                 connection);
-            command.Parameters.AddWithValue("@table", Table);
+            command.Parameters.AddWithValue("@tablename", Table);
 
-            using (var reader2 = command.ExecuteReader())
+            using (var reader2 = await command.ExecuteReaderAsync())
             {
-                while (reader2.Read())
+                while (await reader2.ReadAsync())
                 {
-                    Columns.Add(new ColumnView
+                    columns.Add(new ColumnView
                     {
                         ColumnName = reader2.GetString(0)
                     });
@@ -89,15 +112,19 @@ namespace CasinoApp.Pages
             }
             connection.Close();
 
+            ColumnBox.ItemsSource = columns;
+            ColumnBox.IsEnabled = columns.Count > 0;
+
         }
         void OnClickUpdate(object sender, RoutedEventArgs e)
         {
-            LoadColumn();
+    
         }
 
 
-    }
 
+
+    }
     public class TableView
     {
         public string TableName { get; set; } = "";
