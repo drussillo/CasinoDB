@@ -122,8 +122,8 @@ public sealed partial class ExchangesPage : Page
             ";
 
             ExchangeQuery.Parameters.AddWithValue("@gambler", gamid);
-            ExchangeQuery.Parameters.AddWithValue("@wager", 1);
-            ExchangeQuery.Parameters.AddWithValue("@result", 1);
+            ExchangeQuery.Parameters.AddWithValue("@amount", 1);
+            ExchangeQuery.Parameters.AddWithValue("@to_chips", 1);
             ExchangeQuery.Parameters.AddWithValue("@time", DateTime.Now);
 
             ExchangeQuery.ExecuteNonQuery();
