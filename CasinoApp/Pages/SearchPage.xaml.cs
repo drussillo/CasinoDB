@@ -49,8 +49,31 @@ namespace CasinoApp.Pages
         {
             using var connection = DB.GetConnection();
             connection.Open();
+            
+            string Table = TableBox.SelectedItem.ToString();
+            using var command = new SqlCommand(
+                @"SELECT COLUMN_NAME
+                  FROM INFORMATION_SCHEMA.COLUMNS
+                  WHERE TABLE_NAME = @Table"
+                );
 
+            using var reader = command.ExecuteReader();
 
+            while (reader.Read())
+            {
+                Columns.Add(new ColumnView
+                {
+                    ColumnName = reader.GetString(0)
+                });
+            }
+        }
+
+        public void OnDropDownOpened(object sender, object e)
+        {
+            if (!TableBox.IsDropDownOpen)
+            {
+                LoadColumn();
+            }
         }
     }
 
