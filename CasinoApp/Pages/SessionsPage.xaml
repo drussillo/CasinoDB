@@ -40,27 +40,59 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Session ID" FontWeight="Bold" />
-            <TextBlock Grid.Column="1" Text="Employee SSN" FontWeight="Bold" />
-            <TextBlock Grid.Column="2" Text="Equipment" FontWeight="Bold" />
-            <TextBlock Grid.Column="3" Text="Start Time" FontWeight="Bold" />
-            <TextBlock Grid.Column="4" Text="End Time" FontWeight="Bold" />
+            <TextBlock Grid.Column="0" Text="ID" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Text="Employee ID" FontWeight="Bold" />
+            <TextBlock Grid.Column="2" Text="Employee Name" FontWeight="Bold" />
+            <TextBlock Grid.Column="3" Text="Equipment ID" FontWeight="Bold" />
+            <TextBlock Grid.Column="4" Text="Game" FontWeight="Bold" />
+            <TextBlock Grid.Column="5" Text="Start Time" FontWeight="Bold" />
+            <TextBlock Grid.Column="6" Text="End Time" FontWeight="Bold" />
         </Grid>
 
         <!-- List view goes here -->
+        <!-- Body row -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            
             <StackPanel Padding="16">
+                <ListView ItemsSource="{x:Bind Sessions}">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:SessionsView">
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
+                                <TextBlock Grid.Column="0" Text="{x:Bind SessionID}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind EmployeeID}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind EmployeeName}" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind EquipmentID}" />
+                                <TextBlock Grid.Column="4" Text="{x:Bind Game}" />
+                                <TextBlock Grid.Column="5" Text="{x:Bind StartTime}" />
+                                <TextBlock Grid.Column="6" Text="{x:Bind EndTime}" TextWrapping="Wrap" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
             </StackPanel>
+            
         </ScrollViewer>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
-            <Button FontWeight="SemiBold" Content="Add" x:Name="AddButtom" />
-            <Button FontWeight="SemiBold" Content="Edit" IsEnabled="False" x:Name="EditButton"  />
-            <Button FontWeight="SemiBold" Content="Delete" IsEnabled="False" x:Name="DeleteButton"  />
+            <Button FontWeight="SemiBold" Content="Start Demo" x:Name="Demo" />
         </StackPanel>
     </Grid>
 </Page>
