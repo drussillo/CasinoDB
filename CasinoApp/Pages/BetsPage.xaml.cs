@@ -145,7 +145,6 @@ public sealed partial class BetsPage : Page
 }
 
 
-}
 public class BetsView()
 {
     private SqlDateTime time;
