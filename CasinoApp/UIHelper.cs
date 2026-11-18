@@ -148,5 +148,85 @@ namespace CasinoApp
 
             return comboBox;
         }
+
+        public static ComboBox CreatePitBossComboBox(string? selectedSSN = null)
+        {
+            var combo = new ComboBox
+            {
+                Header = "Pit Boss",
+                PlaceholderText = "Select an employee",
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                DisplayMemberPath = "Name"
+            };
+
+            using var connection = DB.GetConnection();
+            connection.Open();
+
+            using var command = new SqlCommand(
+                "SELECT SSN, F_Name, L_Name FROM Employee ORDER BY L_Name, F_Name", connection);
+
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var employee = new EmployeeOption
+                {
+                    SSN = reader.GetString(0),
+                    Name = $"{reader.GetString(1)} {reader.GetString(2)}"
+                };
+
+                combo.Items.Add(employee);
+                if (employee.SSN == selectedSSN)
+                    combo.SelectedItem = employee;
+            }
+
+            return combo;
+        }
+
+        public static ComboBox CreateGamblerComboBox(string? selectedGamblerID = null)
+        {
+            var combo = new ComboBox
+            {
+                Header = "Gambler",
+                PlaceholderText = "Select a gambler",
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+
+            using var connection = DB.GetConnection();
+            connection.Open();
+
+            using var command = new SqlCommand(
+                @"SELECT Gambler_ID, F_Name, L_Name
+          FROM GAMBLER
+          ORDER BY L_Name, F_Name", connection);
+
+            using SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string gamblerID = reader.GetString(0);
+                string firstName = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                string lastName = reader.IsDBNull(2) ? "" : reader.GetString(2);
+
+                var item = new ComboBoxItem
+                {
+                    Content = $"{firstName} {lastName} ({gamblerID})".Trim(),
+                    Tag = gamblerID
+                };
+
+                combo.Items.Add(item);
+
+                if (gamblerID == selectedGamblerID)
+                {
+                    combo.SelectedItem = item;
+                }
+            }
+
+            return combo;
+        }
+    }
+    public class EmployeeOption
+    {
+        public string SSN { get; set; } = "";
+        public string Name { get; set; } = "";
     }
 }
