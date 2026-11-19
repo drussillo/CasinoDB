@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="CasinoApp.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -8,12 +8,158 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="24,16,24,16" RowSpacing="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Home" />
-        <TextBlock Grid.Row="1" Text="Welcome to the CasinoDB" />
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="24">
+
+            <!-- Page Header -->
+            <Border Padding="32,16">
+                <StackPanel Spacing="4">
+                    <TextBlock
+                        Text="Home"
+                        Style="{StaticResource TitleTextBlockStyle}"/>
+
+                    <TextBlock
+                        Text="Welcome to CasinoDB!"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Welcome Section -->
+            <StackPanel Padding="32,0" Spacing="12">
+
+                <TextBlock
+                    Text="Casino Database Management"
+                    FontSize="22"
+                    FontWeight="SemiBold"/>
+
+                <TextBlock
+                    Text="Manage casino information, view records, and update database entries from one application."
+                    TextWrapping="Wrap"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+
+            </StackPanel>
+
+            <!-- Overview -->
+            <StackPanel Padding="32,8" Spacing="16">
+
+                <TextBlock
+                    Text="Database Overview"
+                    FontSize="18"
+                    FontWeight="SemiBold"/>
+
+                <Grid ColumnSpacing="16" RowSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Employees -->
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="20"
+                        CornerRadius="8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Text="Employees"
+                                FontSize="18"
+                                FontWeight="SemiBold"/>
+
+                            <TextBlock
+                                Text="View and manage employee information."
+                                TextWrapping="Wrap"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Gamblers -->
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="20"
+                        CornerRadius="8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Text="Gamblers"
+                                FontSize="18"
+                                FontWeight="SemiBold"/>
+
+                            <TextBlock
+                                Text="Manage gambler accounts and memberships."
+                                TextWrapping="Wrap"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Equipment -->
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Padding="20"
+                        CornerRadius="8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Text="Equipment"
+                                FontSize="18"
+                                FontWeight="SemiBold"/>
+
+                            <TextBlock
+                                Text="Manage casino tables, machines, and game settings."
+                                TextWrapping="Wrap"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Transactions -->
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="20"
+                        CornerRadius="8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Text="Transactions"
+                                FontSize="18"
+                                FontWeight="SemiBold"/>
+
+                            <TextBlock
+                                Text="View bets, exchanges, and other casino records."
+                                TextWrapping="Wrap"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+            </StackPanel>
+
+            <!-- Footer -->
+            <Border Padding="32,16">
+                <TextBlock
+                    Text="Select a page from the navigation menu to get started."
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    TextWrapping="Wrap"/>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>

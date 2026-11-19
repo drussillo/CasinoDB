@@ -19,6 +19,7 @@ namespace CasinoApp
             SetTitleBar(AppTitleBar);
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
             AppWindow.SetIcon("Assets/AppIcon.ico");
+            NavFrame.Navigate(typeof(HomePage));
         }
 
         private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
