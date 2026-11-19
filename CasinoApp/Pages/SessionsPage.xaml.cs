@@ -170,4 +170,9 @@ public class SessionsView
     public string Game { get; set; } = "";
     public SqlDateTime StartTime { get => startTime; set => startTime = value; }
     public SqlDateTime EndTime { get => endTime; set => endTime = value; }
+
+
+    public string Display =>
+        $"Session #{SessionID} | Employee: {EmployeeID} | " +
+        $"Equipment: {EquipmentID} | {StartTime:g}";
 }

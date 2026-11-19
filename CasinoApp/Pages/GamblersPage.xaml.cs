@@ -349,5 +349,11 @@ namespace CasinoApp.Pages
         public string DateJoined { get; set; } = "";
         public string AccountStatus { get; set; } = "";
         public string Notes { get; set; } = "";
+
+
+
+
+        public string Display =>
+            $"{FirstName} {LastName} | {GamblerID} | {Membership}";
     }
 }
