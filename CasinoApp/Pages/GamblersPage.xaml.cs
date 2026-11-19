@@ -1,6 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -36,7 +37,7 @@ namespace CasinoApp.Pages
                 Gamblers.Add(new GamblersView
                 {
                     GamblerID = reader.GetString(0),
-                    Membership = reader.GetString(1),
+                    Membership = reader.IsDBNull(1) || string.IsNullOrWhiteSpace(reader.GetString(1)) ? "No Membership" : reader.GetString(1), /* Since this is a foreign we need to check if null */
                     FirstName = reader.GetString(2),
                     LastName = reader.GetString(3),
                     IDType = reader.GetString(4),
@@ -49,79 +50,8 @@ namespace CasinoApp.Pages
             }
         }
 
-        // Create the membership dropdown used by both Add and Edit.
-        private ComboBox CreateMembershipComboBox(string? currentMembership = null)
-        {
-            var comboBox = new ComboBox
-            {
-                Header = "Membership Type",
-                Description = currentMembership == null
-                    ? "This is a foreign key."
-                    : $"This is a foreign key.\nCurrent Membership: {currentMembership}"
-            };
-
-            using var connection = DB.GetConnection();
-            connection.Open();
-
-            using var command = new SqlCommand("SELECT NAME FROM MEMBERSHIP", connection);
-            using var reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                comboBox.Items.Add(reader.GetString(0));
-            }
-
-            // Keep the existing membership selected when editing.
-            if (currentMembership != null)
-            {
-                comboBox.SelectedItem = currentMembership;
-            }
-
-            return comboBox;
-        }
-
-        // Build a vertical form without repeating Children.Add calls.
-        private static StackPanel CreateFormPanel(params UIElement[] controls)
-        {
-            var panel = new StackPanel { Spacing = 12 };
-
-            foreach (var control in controls)
-            {
-                panel.Children.Add(control);
-            }
-
-            return panel;
-        }
-
-        // Use the same dialog settings throughout the page.
-        private ContentDialog CreateDialog(
-            string title, object content, string primaryButton, string closeButton)
-        {
-            return new ContentDialog
-            {
-                Title = title,
-                Content = content,
-                PrimaryButtonText = primaryButton,
-                CloseButtonText = closeButton,
-                DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = XamlRoot
-            };
-        }
-
-        private async Task ShowErrorAsync()
-        {
-            var message = new TextBlock
-            {
-                Text = "The database operation failed. Check the database restrictions and try again.",
-                TextWrapping = TextWrapping.Wrap
-            };
-
-            var dialog = CreateDialog("Database Error", message, "Close", "");
-            await dialog.ShowAsync();
-        }
-
-        private void ListViewGamblers_SelectionChanged(
-            object sender, SelectionChangedEventArgs e)
+  
+        private void ListViewGamblers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bool hasSelection = ListViewGamblers.SelectedItem is GamblersView;
 
@@ -142,7 +72,7 @@ namespace CasinoApp.Pages
                 TextWrapping = TextWrapping.Wrap
             };
 
-            var dialog = CreateDialog($"Delete {fullName}", message, "Yes", "No");
+            var dialog = UIHelper.CreateDialog($"Delete {fullName}", message, "Yes", "No", XamlRoot);
             if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
@@ -160,7 +90,7 @@ namespace CasinoApp.Pages
             }
             catch (SqlException)
             {
-                await ShowErrorAsync();
+                await UIHelper.ShowErrorAsync(XamlRoot);
             }
         }
 
@@ -173,7 +103,7 @@ namespace CasinoApp.Pages
             var firstNameBox = new TextBox { Header = "First Name", Text = gambler.FirstName };
             var lastNameBox = new TextBox { Header = "Last Name", Text = gambler.LastName };
             var idTypeBox = new TextBox { Header = "ID Type", Text = gambler.IDType };
-            var membershipCombo = CreateMembershipComboBox(gambler.Membership);
+            var membershipCombo = UIHelper.CreateMembershipComboBox(gambler.Membership);
             var datePicker = new DatePicker { Header = "Date Joined" };
             var statusBox = new TextBox { Header = "Account Status", Text = gambler.AccountStatus };
             var notesBox = new TextBox { Header = "Notes", Text = gambler.Notes };
@@ -183,11 +113,9 @@ namespace CasinoApp.Pages
                 datePicker.Date = new DateTimeOffset(existingDate);
             }
 
-            var panel = CreateFormPanel(
-                firstNameBox, lastNameBox, idTypeBox, membershipCombo,
-                datePicker, statusBox, notesBox);
+            var panel = UIHelper.CreateFormPanel(firstNameBox, lastNameBox, idTypeBox, membershipCombo, datePicker, statusBox, notesBox);
 
-            var dialog = CreateDialog("Edit a Gambler Account", panel, "Save", "Cancel");
+            var dialog = UIHelper.CreateDialog("Edit a Gambler Account", panel, "Save", "Cancel", XamlRoot);
             if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
@@ -246,7 +174,7 @@ namespace CasinoApp.Pages
             }
             catch (SqlException)
             {
-                await ShowErrorAsync();
+                await UIHelper.ShowErrorAsync(XamlRoot);
             }
         }
 
@@ -262,16 +190,13 @@ namespace CasinoApp.Pages
             var firstNameBox = new TextBox { Header = "First Name" };
             var lastNameBox = new TextBox { Header = "Last Name" };
             var idTypeBox = new TextBox { Header = "ID Type" };
-            var membershipCombo = CreateMembershipComboBox();
+            var membershipCombo = UIHelper.CreateMembershipComboBox();
             var datePicker = new DatePicker { Header = "Date Joined" };
             var statusBox = new TextBox { Header = "Account Status" };
             var notesBox = new TextBox { Header = "Notes" };
 
-            var panel = CreateFormPanel(
-                gamblerIdBox, firstNameBox, lastNameBox, idTypeBox,
-                membershipCombo, datePicker, statusBox, notesBox);
-
-            var dialog = CreateDialog("Add a Gambler Account", panel, "Add", "Cancel");
+            var panel = UIHelper.CreateFormPanel(gamblerIdBox, firstNameBox, lastNameBox, idTypeBox, membershipCombo, datePicker, statusBox, notesBox);
+            var dialog = UIHelper.CreateDialog("Add a Gambler Account", panel, "Add", "Cancel", XamlRoot);
 
             // Do not close the dialog when required fields are missing.
             dialog.PrimaryButtonClick += (s, args) =>
@@ -334,7 +259,7 @@ namespace CasinoApp.Pages
             }
             catch (SqlException)
             {
-                await ShowErrorAsync();
+                await UIHelper.ShowErrorAsync(XamlRoot);
             }
         }
     }

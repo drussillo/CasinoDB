@@ -8,18 +8,98 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <!--Copy paste this ^^^^ for new pages but change x:Class package to corresponding .cs file-->
-
-    <Grid Padding="24,16,24,16" RowSpacing="24">
+    <!--Padding="24,16,24,16" RowSpacing="24"-->
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <!-- header: sizes to its content -->
             <RowDefinition Height="Auto" />
+            <!-- labels -->
+            <RowDefinition Height="*" />
+            <!-- the list takes the rest of the grid view -->
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <!-- the list takes the rest of the grid view -->
         </Grid.RowDefinitions>
-        
-    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Equipment" />
-        <TextBlock Grid.Row="1" Text="This is where the Equipment is listed" />
-        <TextBlock Grid.Row="2" Text="Equipment_ID   Game   Pit   Min Membership   Min Player    Max Players   Min Bet    Max Bet"/>
-        <TextBlock x:Name="MachineList" Grid.Row="3" Text="" />
+
+        <Border Grid.Row="0" Padding="32,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Equipment" Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock Grid.Row="1" Text="All current machines and tables at the casino!"/>
+            </Grid>
+
+        </Border>
+
+
+        <Grid Grid.Row="1" Padding="12 8" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="EquipmentID" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Text="Game Name" FontWeight="Bold" />
+            <TextBlock Grid.Column="2" Text="Pit" FontWeight="Bold" />
+            <TextBlock Grid.Column="3" Text="Min Membership" FontWeight="Bold" />
+            <TextBlock Grid.Column="4" Text="Min Players" FontWeight="Bold" />
+            <TextBlock Grid.Column="5" Text="Max Players" FontWeight="Bold" />
+            <TextBlock Grid.Column="6" Text="Min Bet" FontWeight="Bold" />
+            <TextBlock Grid.Column="7" Text="Max Bet" FontWeight="Bold" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel Padding="16">
+                <ListView ItemsSource="{x:Bind Equipment}" x:Name="ListViewEquipment" SelectionChanged="ListViewEquipment_SelectionChanged">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:EquipmentView">
+                            <Grid Padding="12" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{x:Bind EquipmentID}" FontWeight="SemiBold" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind Game}"/>
+                                <TextBlock Grid.Column="2" Text="{x:Bind Pit}"/>
+                                <TextBlock Grid.Column="3" Text="{x:Bind MinMembership}"/>
+                                <TextBlock Grid.Column="4" Text="{x:Bind MinPlayers}"/>
+                                <TextBlock Grid.Column="5" Text="{x:Bind MaxPlayers}"/>
+                                <TextBlock Grid.Column="6" Text="{x:Bind MinBet}"/>
+                                <TextBlock Grid.Column="7" Text="{x:Bind MaxBet}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
+            <Button FontWeight="SemiBold" Content="Add" x:Name="AddButtom" Click="Add_Click" />
+            <Button FontWeight="SemiBold" Content="Edit" IsEnabled="False" x:Name="EditButton" Click="Edit_Click" />
+            <Button FontWeight="SemiBold" Content="Delete" IsEnabled="False" x:Name="DeleteButton" Click="Delete_Click" />
+        </StackPanel>
+
+
     </Grid>
 </Page>

@@ -88,14 +88,13 @@
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    
                 </ListView>
             </StackPanel>
-            
         </ScrollViewer>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
             <Button FontWeight="SemiBold" Content="New Bet" x:Name="Bet" Click="Bet_Click" />
         </StackPanel>
+
     </Grid>
 </Page>

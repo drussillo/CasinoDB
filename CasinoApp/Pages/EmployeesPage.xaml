@@ -11,16 +11,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
-
             <RowDefinition Height="Auto" />
-            <!-- 0 header: sizes to its content -->
-
+            <!-- header: sizes to its content -->
             <RowDefinition Height="Auto" />
-            <!-- 1 labels -->
- 
+            <!-- labels -->
             <RowDefinition Height="*" />
-            <!-- 2 the list takes the rest of the grid view -->
-
+            <!-- the list takes the rest of the grid view -->
+            <RowDefinition Height="Auto" />
+            <!-- the list takes the rest of the grid view -->
         </Grid.RowDefinitions>
 
         <!-- Header row -->
@@ -58,7 +56,7 @@
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             
             <StackPanel Padding="16">
-                <ListView ItemsSource="{x:Bind Employees}">
+                <ListView ItemsSource="{x:Bind Employees}" x:Name="ListViewEmployees" SelectionChanged="ListViewEmplopyee_SelectionChanged">
                     
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:EmployeeView">
@@ -85,6 +83,12 @@
             </StackPanel>
             
         </ScrollViewer>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
+            <Button FontWeight="SemiBold" Content="Add" x:Name="AddButtom" Click="Add_Click" />
+            <Button FontWeight="SemiBold" Content="Edit" IsEnabled="False" x:Name="EditButton" Click="Edit_Click" />
+            <Button FontWeight="SemiBold" Content="Delete" IsEnabled="False" x:Name="DeleteButton" Click="Delete_Click" />
+        </StackPanel>
 
     </Grid>
 </Page>
