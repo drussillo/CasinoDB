@@ -72,6 +72,9 @@ namespace CasinoApp
                     case "machine":
                         NavFrame.Navigate(typeof(MachinePage));
                         break;
+                    case "search":
+                        NavFrame.Navigate(typeof(SearchPage));
+                        break;
                     default:
                         throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
 

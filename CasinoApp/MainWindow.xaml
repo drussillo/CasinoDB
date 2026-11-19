@@ -51,6 +51,7 @@
                 
 
                 <NavigationViewItem Content="Games" Icon="Emoji" Tag="games"/>
+				<NavigationViewItem Content="Search" Icon="Emoji" Tag="search"/>
 
                 <!-- 
                 Games Tab YOU CAN DO NESTED TABS LIKE THIS 

@@ -45,6 +45,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Text="Bet ID" FontWeight="Bold" />
@@ -52,7 +53,8 @@
             <TextBlock Grid.Column="2" Text="Gambler Name" FontWeight="Bold" />
             <TextBlock Grid.Column="3" Text="Wager" FontWeight="Bold" />
             <TextBlock Grid.Column="4" Text="Result" FontWeight="Bold" />
-            <TextBlock Grid.Column="5" Text="Date" FontWeight="Bold" />
+            <TextBlock Grid.Column="5" Text="Time" FontWeight="Bold" />
+            <TextBlock Grid.Column="6" Text="SessionID" FontWeight="Bold" />
         </Grid>
 
         <!-- List view goes here -->
@@ -72,6 +74,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Text="{x:Bind BetID.ToString()}" FontWeight="SemiBold" />
@@ -79,7 +82,8 @@
                                 <TextBlock Grid.Column="2" Text="{x:Bind GamblerName}" />
                                 <TextBlock Grid.Column="3" Text="{x:Bind Wager.ToString()}" />
                                 <TextBlock Grid.Column="4" Text="{x:Bind Result.ToString()}" />
-                                <TextBlock Grid.Column="6" Text="{x:Bind Time}" TextWrapping="Wrap" />
+                                <TextBlock Grid.Column="5" Text="{x:Bind Time}" />
+                                <TextBlock Grid.Column="6" Text="{x:Bind SessionID}" TextWrapping="Wrap" />
 
                             </Grid>
                         </DataTemplate>
@@ -89,7 +93,7 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8" Padding="16">
-            <Button FontWeight="SemiBold" Content="Start Demo" x:Name="Demo" Click="Demo_Click" />
+            <Button FontWeight="SemiBold" Content="New Bet" x:Name="Bet" Click="Bet_Click" />
         </StackPanel>
 
     </Grid>
